@@ -25,7 +25,15 @@ def train(batch_size, epochs, log, output):
 
     # Model instantiated and called for processing the inputs
     model = Model(X, batch_size)
-    y_hat = model()
+    y_hat, collect_means, collect_locs = model()
+
+    loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
+        labels=y,
+        logits=y_hat
+    ))
+
+    correct_prediction = tf.equal(tf.argmax(y_hat, 1), tf.argmax(y, 1))
+    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
     '''
     Calculate loss and then define the Optimizer and related hyper-parameters

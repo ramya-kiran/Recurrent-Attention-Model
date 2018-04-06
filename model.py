@@ -37,7 +37,7 @@ class Model:
         
         class_outs = self.fc_layer(outputs[-1], GLIMPSE_FC2, NUM_CLASSES, 'softmax', tf.nn.relu)
 
-        return tf.nn.softmax(class_outs)
+        return tf.nn.softmax(class_outs), self.collect_means, self.collect_locs
     
 
     # This function is called by the current LSTM cell to get inputs to the next cell
@@ -50,8 +50,15 @@ class Model:
             y = tf.add(tf.matmul(image, weights), biases)
             y = tf.stop_gradient(y)
             
-        locs = tf.clip_by_value(next_loc, -1., 1.)
-        locs = tf.stop_gradient(next_loc)
+        mean = tf.clip_by_value(y, -1., 1.)
+        means = tf.stop_gradient(means)
+
+        self.collect_means.append(means)
+
+        dist = tf.contrib.distributions.Normal(mu=locs, sigma=np.ones((self.batch_size, 2)))
+        locs = tf.clip_by_value(dist.sample([1]), -1.0, 1.0)
+
+        self.collect_locs(locs)
 
         next_inputs = self.glimpse_network(self.inputs, locs)
 

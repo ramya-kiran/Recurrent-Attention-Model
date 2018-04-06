@@ -24,8 +24,8 @@ def train(batch_size, epochs, log, output):
     y = tf.placeholder(tf.float32, [None, 10], name='labels')
 
     # Model instantiated and called for processing the inputs
-    model = Model()
-    y_hat = model(X, batch_size)
+    model = Model(X, batch_size)
+    y_hat = model()
 
     '''
     Calculate loss and then define the Optimizer and related hyper-parameters

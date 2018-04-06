@@ -23,6 +23,8 @@ def train(batch_size, epochs, log, output):
     X = tf.placeholder(tf.float32, [None, INPUT_SIZE], name='X')
     y = tf.placeholder(tf.float32, [None, 10], name='labels')
 
+    # Model instantiated and called for processing the inputs
+    model = Model()
     y_hat = model(X, batch_size)
 
     '''

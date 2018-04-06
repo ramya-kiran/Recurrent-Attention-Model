@@ -8,6 +8,8 @@ import tensorflow as tf
 import numpy as np
 from tensorflow.examples.tutorials.mnist import input_data
 import os 
+from config import *
+from model import *
 from tensorflow.python.framework import ops
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID" 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"

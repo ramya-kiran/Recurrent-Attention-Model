@@ -37,7 +37,7 @@ class Model:
         
         class_outs = self.fc_layer(outputs[-1], GLIMPSE_FC2, NUM_CLASSES, 'softmax', tf.nn.relu)
 
-        return tf.nn.softmax(class_outs), self.collect_means, self.collect_locs
+        return outputs, tf.nn.softmax(class_outs), self.collect_means, self.collect_locs
     
 
     # This function is called by the current LSTM cell to get inputs to the next cell
